@@ -153,7 +153,7 @@ ui <-
 
                     # Add app version number and links to GTB and Github
                     HTML(paste0(app_version,
-                                ", Source code on <a href='https://github.com/yamanakatakuya/tb_pronto/' target='_blank'>Github</a>.
+                                ", Source code on <a href='https://github.com/GTB-TME/tb_pronto/' target='_blank'>Github</a>.
                                   Data collected and published by the
                                   <a href='https://www.who.int/teams/global-tuberculosis-programme/data' target='_blank'>
                             World Health Organization</a>.</i>"))
@@ -222,7 +222,7 @@ tabPanel(
 
                       # Add app version number and links to GTB and Github
                       HTML(paste0(app_version,
-                                  ", Source code on <a href='https://github.com/yamanakatakuya/tb_pronto/' target='_blank'>Github</a>.
+                                  ", Source code on <a href='https://github.com/GTB-TME/tb_pronto/' target='_blank'>Github</a>.
                                   Data collected and published by the
                                   <a href='https://www.who.int/teams/global-tuberculosis-programme/data' target='_blank'>
                             World Health Organization</a>.</i>"))
