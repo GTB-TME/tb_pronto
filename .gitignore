@@ -1,0 +1,11 @@
+# Ignore automatically generated R files for project, history etc.
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+tb_pronto.Rproj
+rsconnect
+README.html
+
+# Make sure any folder called "local" is ignored
+local/
