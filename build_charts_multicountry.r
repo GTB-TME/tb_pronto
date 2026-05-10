@@ -105,7 +105,8 @@ pdata_annual <- reactive({
   
   pdata_annual <- tb |>
     filter(iso3 %in% pdata_country()) |>
-    select(iso3, country, year, c_newinc)
+    select(iso3, country, year, c_newinc) |>
+    filter(year >= report_year-5) 
   
   pdata_annual
   
@@ -225,7 +226,7 @@ multi_plot <- reactive({
       ggplot(aes(x = date, y = c_newinc)) +
       geom_line( size = 1 , col ="limegreen"
       ) +
-      scale_x_date(date_labels = "%m/%y", date_breaks = "3 month")  +
+      scale_x_date(date_labels = "%m/%Y", date_breaks = "3 month")  +
       theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
       scale_color_manual(values=c()) +
       geom_point(size = 3, col ="limegreen") +

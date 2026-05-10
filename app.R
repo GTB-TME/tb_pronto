@@ -24,14 +24,15 @@ library(stringr)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # load WIDP files
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-source(here("import/load_gtb.R"))
-snapshot_date <- latest_snapshot_date()
 report_year <- 2025 # update once the GTBR of the year released
 current_year <- year(Sys.Date()) 
 
-tb <- load_gtb("tb") |>
+load(paste0(here::here("local/tb.rda")))
+  
+tb <- tb |>
   arrange(iso3)
-provisional <- load_gtb("provisional")
+
+load(paste0(here::here("local/provisional.rda")))
 
 # define full sequence
 years <- 2021:current_year
@@ -305,7 +306,7 @@ server <- function(input, output, session) {
     
     c_newinc_year <- tb |>
       filter(iso3 == input$iso3) |>
-      select(year, c_newinc) 
+      select(year, c_newinc)
     
     pdata <- list()
     pdata$c_newinc_prov <- c_newinc_prov

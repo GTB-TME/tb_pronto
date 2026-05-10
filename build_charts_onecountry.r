@@ -13,10 +13,11 @@ output$annual_plot <- renderEcharts4r({
   req(pdata()$c_newinc_prov)
   
   # Store the selected country name to make it easier to display in the chart
-  selected_country <- country_list_json() %>%
+  selected_country <- country_list_json() |>
     filter(iso3 == input$iso3)
   
-  c_newinc_annual <- pdata()$c_newinc_year %>%
+  c_newinc_annual <- pdata()$c_newinc_year  |>
+    filter(year >= report_year-5) |>
     # Change the year column to text so that chart is similar to the provisional one
     mutate(year = as.character(year))
   
@@ -31,28 +32,28 @@ output$annual_plot <- renderEcharts4r({
   
   
   # Create the chart
-  c_newinc_annual %>%
+  c_newinc_annual |>
     
-    e_charts(x = year) %>%
+    e_charts(x = year) |>
     
     e_line(serie = c_newinc,
-           symbolSize = 12) %>%
+           symbolSize = 12) |>
     
-    e_title(text = selected_country$country)   %>%
+    e_title(text = selected_country$country)   |>
     
-    e_legend(FALSE) %>%
+    e_legend(FALSE) |>
     
     # Adjust x and y axis properties
     e_y_axis(axisLine = list(show = FALSE),
-             axisTick = list(show = FALSE)) %>%
+             axisTick = list(show = FALSE)) |>
     
     e_x_axis(name = "Year",
              nameLocation = 'middle',
              nameTextStyle = list(fontSize  = 14,
-                                  padding = 14)) %>%
+                                  padding = 14)) |>
     
     # Make sure large numbers are not truncated in exes labels
-    e_grid(containLabel = TRUE) %>%
+    e_grid(containLabel = TRUE) |>
     
     e_tooltip(formatter = JS("
                                   function(params){
@@ -75,7 +76,7 @@ output$prov_plot <- renderEcharts4r({
   
   # Store selected country name in variable
   # to make it easier to display in the chart
-  selected_country <- country_list_json() %>%
+  selected_country <- country_list_json() |>
     filter(iso3 == input$iso3)
   
   # Put the provisional data into a variable to make subsequent code easier to read
@@ -90,7 +91,7 @@ output$prov_plot <- renderEcharts4r({
   # if (min(data_to_plot$report_frequency) != max(data_to_plot$report_frequency)) {
   
   # Convert any years with quarterly data to monthly equivalent
-  data_to_plot <- data_to_plot %>%
+  data_to_plot <- data_to_plot |>
     mutate(m_01 = ifelse(report_frequency == 71, round(q_1/3), m_01),
            m_02 = ifelse(report_frequency == 71, round(q_1/3), m_02),
            m_03 = ifelse(report_frequency == 71, round(q_1/3), m_03),
@@ -113,11 +114,11 @@ output$prov_plot <- renderEcharts4r({
   # }
   
   # Get the total notification for 2019 (final pre-pandemic year) and calculate the average monthly or quarterly
-  prepandemic_year <- pdata()$c_newinc_year %>%
-    filter(year == 2019) %>%
+  prepandemic_year <- pdata()$c_newinc_year |>
+    filter(year == 2019) |>
     select(c_newinc)
   
-  prepandemic_year_avge <- prepandemic_year/12 %>% as.numeric()
+  prepandemic_year_avge <- prepandemic_year/12 |> as.numeric()
   
   current_yearmonth <- Sys.Date()
   
@@ -126,31 +127,31 @@ output$prov_plot <- renderEcharts4r({
   # noting that instead of using Javascript dot notation to set properties such as yAxis.axisTick.show = true
   # have to use an R list such as axisTick = list(show = FALSE)
   
-  prov_chart <-  data_to_plot %>%
-    select(!starts_with("q_")) %>%
+  prov_chart <-  data_to_plot |>
+    select(!starts_with("q_")) |>
     # Flip to long format
     pivot_longer(cols = starts_with("m_"),
                  names_to = "period",
                  # Add "0?" to the names_prefix regex to remove any leading zeros
                  names_prefix = paste0("m_", "0?"),
-                 values_to = "c_newinc") %>%
-    mutate(date = as.Date(paste(year, period, "01", sep="-"), format="%Y-%m-%d")) %>%
-    filter(date < current_yearmonth-60) %>%
+                 values_to = "c_newinc") |>
+    mutate(date = as.Date(paste(year, period, "01", sep="-"), format="%Y-%m-%d")) |>
+    filter(date < current_yearmonth-60) |>
     
-    mutate(date = format(date, "%m/%y")) %>%
+    mutate(date = format(date, "%m/%Y")) |>
     
-    # select(year, period, c_newinc) %>%
+    # select(year, period, c_newinc) |>
     
     # Grouping by year makes Echarts show each year as a separate line (named data series)
-    # group_by(year) %>%
+    # group_by(year) |>
     
     # Build the chart object
-    e_charts(x = date) %>%
+    e_charts(x = date) |>
     
     e_line(serie = c_newinc,
-           symbolSize = 8) %>%
+           symbolSize = 8) |>
     
-    e_title(text = selected_country$country)   %>%
+    e_title(text = selected_country$country)   |>
     
     # params.seriesName is the year because the dataframe is grouped by year
     e_tooltip(formatter = JS(paste0("
@@ -159,9 +160,9 @@ output$prov_plot <- renderEcharts4r({
                                      params.value[0] + 
                                      '<br />Number notified*: ' + params.value[1] )
                                   }
-                                "))) %>%
+                                "))) |>
     
-    e_legend(F) %>%
+    e_legend(F) |>
     
     # Adjust x axis properties
     e_x_axis(name = period_name,
@@ -169,10 +170,10 @@ output$prov_plot <- renderEcharts4r({
              nameTextStyle = list(fontSize  = 14,
                                   padding = 14),
              axisLabel = list(rotate = 0)
-    ) %>%
+    ) |>
     
     # Make sure large numbers are not truncated in exes labels
-    e_grid(containLabel = TRUE) %>%
+    e_grid(containLabel = TRUE) |>
     
     # Add a horizontal line to show pre-pandemic year's average notification by quarter/month
     e_mark_line(data = list(yAxis = prepandemic_year_avge$c_newinc),
@@ -183,9 +184,9 @@ output$prov_plot <- renderEcharts4r({
   
   # Before defining the y-axis properties
   # Calculate the maximum value of all the points and the pre-pandemic year average
-  max_value <- data_to_plot %>%
-    select(starts_with("m_")) %>%
-    max(na.rm = TRUE) %>%
+  max_value <- data_to_plot |>
+    select(starts_with("m_")) |>
+    max(na.rm = TRUE) |>
     max(c(prepandemic_year_avge$c_newinc), na.rm = TRUE)
   # 
   if (max_value == prepandemic_year_avge) {
@@ -201,7 +202,7 @@ output$prov_plot <- renderEcharts4r({
     
     max_value <- ceiling(max_value/order_of_magnitude) * order_of_magnitude
     
-    prov_chart <- prov_chart %>%
+    prov_chart <- prov_chart |>
       
       e_y_axis(axisLine = list(show = FALSE),
                axisTick = list(show = FALSE),
@@ -214,7 +215,7 @@ output$prov_plot <- renderEcharts4r({
   } else {
     
     # The maximum value comes from the data points so let eCharts figure out the scale
-    prov_chart <- prov_chart %>%
+    prov_chart <- prov_chart |>
       
       e_y_axis(axisLine = list(show = FALSE),
                axisTick = list(show = FALSE))
