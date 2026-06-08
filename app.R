@@ -2,7 +2,7 @@
 # Shiny app to display provisional monthly or quarterly TB notifications for
 # a country using JSON data retrieved from the WHO global tuberculosis database.
 # Using the Echarts for R package instead of ggplot2.
-# Hazim Timimi, Takuya Yamanaka Apr 2024, updated May 2026
+# Hazim Timimi, Takuya Yamanaka Apr 2024, updated June 2026
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 app_version <- "Version 3.0"
