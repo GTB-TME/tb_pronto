@@ -192,7 +192,7 @@ tabPanel(
                    choiceNames = list(
                      tags$span(style = "font-size: 90%;", "30 TB high burden countries"),
                      tags$span(style = "font-size: 90%;", "30 countries with the biggest contributions to the global shortfall in TB notifications in 2020 vs 2019"),
-                     tags$span(style = "font-size: 90%;", "3 global TB watchlist countries")
+                     tags$span(style = "font-size: 90%;", "2 global TB watchlist countries")
                    ),
                    choiceValues = list('30hbc', '30mpc','3gwc'),
                    selected = "30hbc"),

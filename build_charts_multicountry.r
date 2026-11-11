@@ -24,9 +24,9 @@ pdata_country <- reactive({
   
   if(input$country_set == "30hbc") {
     
-    y<-c("AGO","BGD","BRA","CAF","CHN","PRK","COG","COD","ETH","GAB","IND",
-         "IDN","KEN","LSO","LBR","MNG","MOZ","MMR","NAM","NGA","PAK",
-         "PNG","PHL","SLE","ZAF","THA","UGA","TZA","VNM","ZMB")
+    y<-c("AGO","BGD","BRA","CAF","CHN","PRK","KHM","COG","COD","ETH","IND",
+         "IDN","KEN","LSO","MNG","MOZ","MMR","NAM","NGA","PAK",
+         "PNG","PHL","SLE","ZAF","SSD","THA","UGA","TZA","VNM","ZMB")
     return(y)
     
   } else {
@@ -40,7 +40,7 @@ pdata_country <- reactive({
       
     } else {
       
-      y<-c("KHM","RUS","ZWE")
+      y<-c("GAB","LBR")
       return(y)
       
     }
