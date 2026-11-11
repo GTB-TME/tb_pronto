@@ -6,10 +6,10 @@
 
 output$hbc_heading <- renderText({
   if(input$indicator == "provisional") {
-    paste0("Provisional* number of people with new or relapse episodes of TB notified per month or quarter since January 2020")
+    paste0("Provisional* number of people with new or recurrent episodes of TB notified per month or quarter since January 2020")
     
   } else {
-    paste0("Number of people with new or relapse episodes of TB notified per year, most recent 5 years for which annual data have been reported to WHO")
+    paste0("Number of people with new or recurrent episodes of TB notified per year, most recent 5 years for which annual data have been reported to WHO")
     
   }
 })
@@ -314,7 +314,7 @@ multi_plot_pdf <- reactive({
   if(input$indicator == "provisional") {
     
     p <- p + facet_wrap(~ country,strip.position="top",ncol=5, scales="free")+
-      ggtitle("Provisional* number of people with new or relapse episodes of TB notified per month or quarter since January 2020") +
+      ggtitle("Provisional* number of people with new or recurrent episodes of TB notified per month or quarter since January 2020") +
       labs(caption =   paste0("* "," Data are provisional as reported to WHO by ",
                               format(Sys.time(),
                                      format = "%Y-%m-%d %H:%M",
@@ -331,7 +331,7 @@ multi_plot_pdf <- reactive({
   } else {
     
     p <- p + facet_wrap(~ country,strip.position="top",ncol=5, scales="free")+
-      ggtitle("Number of people with new or relapse episodes of TB notified per year, most recent 5 years for which annual data have been reported to WHO") +
+      ggtitle("Number of people with new or recurrent episodes of TB notified per year, most recent 5 years for which annual data have been reported to WHO") +
       theme(
         plot.title = element_text(color="dodgerblue3", size=25, face="bold"),
         panel.spacing = unit(5, "lines"),
@@ -376,7 +376,7 @@ output$page_footer2 <- renderText({
 output$page_footer3 <- renderText({
   if(input$indicator == "provisional" & input$country_set == "30hbc") {
     
-    paste0("** No data available for Congo for provisional number of people with new or relapse episodes of TB notified per month or quarter.")
+    paste0("** No data available for Congo for provisional number of people with new or recurrent episodes of TB notified per month or quarter.")
   } else {
     paste0("")
     
